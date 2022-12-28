@@ -1,6 +1,6 @@
 package com.kapusta.context;
 
-import com.kapusta.annotation.GetEndpoint;
+import com.kapusta.annotation.endpoints.GetEndpoint;
 import com.kapusta.annotation.Restful;
 import com.kapusta.http.GetHttpHandler;
 import com.sun.net.httpserver.HttpHandler;
@@ -14,9 +14,9 @@ import java.util.Set;
 
 @Slf4j
 public class ContextProducer {
-    public Map<String, HttpHandler> produceContext(Set<Class> components) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
+    public Map<String, HttpHandler> produceContext(Set<Class<?>> components) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
         Map<String, HttpHandler> map = new HashMap<>();
-        Class component = components.iterator().next();
+        Class<?> component = components.iterator().next();
         if(component.isAnnotationPresent(Restful.class)){
             Method method = component.getMethods()[0];
             if(method.isAnnotationPresent(GetEndpoint.class)){

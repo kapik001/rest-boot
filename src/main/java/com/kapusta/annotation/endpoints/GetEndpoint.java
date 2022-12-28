@@ -1,4 +1,4 @@
-package com.kapusta.annotation;
+package com.kapusta.annotation.endpoints;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

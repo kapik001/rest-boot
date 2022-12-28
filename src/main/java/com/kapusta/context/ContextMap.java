@@ -12,7 +12,7 @@ class ContextMap {
     @Getter
     @Setter
     private Class<?> clazz;
-    private Set<ContextMap> dependencies;
+    private final Set<ContextMap> dependencies;
 
     ContextMap(){
         this.dependencies = new HashSet<>();

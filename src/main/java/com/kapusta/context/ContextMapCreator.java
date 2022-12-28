@@ -18,7 +18,7 @@ class ContextMapCreator {
         return createContextMapIn(classToScan, new HashSet<>());
     }
 
-    Set<ContextMap> createContextMapIn(Set<Class<?>> classToScan, Set<Class<?>> alreadyVisited) throws ContextCreationException {
+    private Set<ContextMap> createContextMapIn(Set<Class<?>> classToScan, Set<Class<?>> alreadyVisited) throws ContextCreationException {
         Set<ContextMap> contextMaps = new HashSet<>();
         for (Class<?> clazz : classToScan) {
             ContextMap contextMap = new ContextMap();
