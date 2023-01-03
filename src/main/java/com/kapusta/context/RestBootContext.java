@@ -10,18 +10,20 @@ import java.util.Set;
 public class RestBootContext {
     private final RestBootConfig restBootConfig;
 
-    RestBootContext(RestBootConfig restBootConfig) {
+    public RestBootContext(RestBootConfig restBootConfig) {
         this.restBootConfig = restBootConfig;
     }
 
-    public void createContext() throws ContextCreationException {
+    public Set<ExecutionContext> createContext() throws ContextCreationException {
         log.info("Starting to scan components");
         ScannedComponents scannedComponents = new ComponentScanner().scan(restBootConfig.getPackagesToScan());
         log.info("Scanning finished, detected {} components", scannedComponents.numberOfScannedComponents());
-        Set<ContextMap> contextMap = new ContextMapCreator(scannedComponents.getEndpoints()).createContextMap(scannedComponents.getServices());
+        Set<ContextMap> contextMap = new ContextMapCreator(scannedComponents.getServices()).createContextMap(scannedComponents.getEndpoints());
         log.info("Context map created");
-        Set<ExecutionContext> executionContexts = new ExecutionContextProducer(scannedComponents.getEndpoints()).produceExecutionContext();
+        Set<ExecutionContext> executionContexts = new ExecutionContextProducer(scannedComponents.getEndpoints(), contextMap)
+                .produceExecutionContext();
         executionContexts.forEach(ec -> log.info("Created execution context: {}", ec));
+        return executionContexts;
     }
 
 

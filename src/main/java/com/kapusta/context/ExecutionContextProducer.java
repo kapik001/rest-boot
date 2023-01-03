@@ -11,6 +11,7 @@ import java.util.Set;
 @AllArgsConstructor
 class ExecutionContextProducer {
     private Set<Class<?>> endpoints;
+    private Set<ContextMap> contextMap;
 
     Set<ExecutionContext> produceExecutionContext(){
         Set<ExecutionContext> contexts = new HashSet<>();
@@ -31,6 +32,7 @@ class ExecutionContextProducer {
                 .httpMethod(HttpMethod.GET)
                 .method(method)
                 .path(method.getAnnotation(GetEndpoint.class).path())
+                .cm(contextMap.stream().filter(contextMap1 -> contextMap1.getClazz().equals(clazz)).findFirst().orElse(null))
                 .build();
     }
 }

@@ -22,9 +22,9 @@ class HttpServerRunner {
         this.threadPool = threadPool;
     }
 
-    void create(Map<String, HttpHandler> contexts) throws IOException {
+    void create(Map<String, ExecutionHttpHandler> contexts) throws IOException {
         this.httpServer = HttpServer.create(new InetSocketAddress(host, port), 0);
-        for(Map.Entry<String, HttpHandler> context: contexts.entrySet()){
+        for(Map.Entry<String, ExecutionHttpHandler> context: contexts.entrySet()){
             this.httpServer.createContext(context.getKey(), context.getValue());
         }
         this.httpServer.setExecutor(threadPool);

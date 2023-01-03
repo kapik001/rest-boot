@@ -10,11 +10,11 @@ import java.util.concurrent.Executors;
 
 public class HttpServerContext {
     private final RestBootConfig restBootConfig;
-    private final Map<String, HttpHandler> contexts;
+    private final Map<String, ExecutionHttpHandler> contexts;
 
     private HttpServerRunner httpServerRunner;
 
-    public HttpServerContext(RestBootConfig restBootConfig, Map<String, HttpHandler> contexts){
+    public HttpServerContext(RestBootConfig restBootConfig, Map<String, ExecutionHttpHandler> contexts){
         this.restBootConfig = restBootConfig;
         this.contexts = contexts;
     }

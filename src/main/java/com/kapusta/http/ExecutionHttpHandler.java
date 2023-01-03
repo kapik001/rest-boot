@@ -1,24 +1,25 @@
 package com.kapusta.http;
 
+import com.kapusta.context.ExecutionContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 @AllArgsConstructor
-public class GetHttpHandler implements HttpHandler {
+@Slf4j
+public class ExecutionHttpHandler implements HttpHandler {
+    private ExecutionContext executionContext;
 
-    private final Object objectToInvoke;
-    private final Method methodToInvoke;
-
+    @Override
     public void handle(HttpExchange exchange) throws IOException {
         Object result;
         try {
-            result = methodToInvoke.invoke(objectToInvoke);
+            result = executionContext.execute();
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
