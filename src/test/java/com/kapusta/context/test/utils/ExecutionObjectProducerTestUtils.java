@@ -48,4 +48,65 @@ public class ExecutionObjectProducerTestUtils {
             testList.add("D");
         }
     }
+
+    public abstract static class ClassE {
+        private boolean isVisited = false;
+
+        public void incrementCounter(CounterHolder counter){
+            if(!isVisited) {
+                counter.inc();
+                isVisited = true;
+            }
+        }
+
+        protected class CounterHolder {
+            private int counter = 0;
+
+            protected void inc(){
+                counter++;
+            }
+
+            protected int get(){
+                return counter;
+            }
+        }
+    }
+
+    public static class ClassF extends ClassE {
+        private final ClassH ch;
+        private final ClassG cg;
+
+        public ClassF(ClassH ch, ClassG cg) {
+            this.ch = ch;
+            this.cg = cg;
+        }
+
+        public int test(){
+            CounterHolder counterHolder = new CounterHolder();
+            this.incrementCounter(counterHolder);
+            this.ch.test(counterHolder);
+            this.cg.test(counterHolder);
+            return counterHolder.get();
+        }
+    }
+
+    public static class ClassH extends ClassE {
+        private final ClassG cg;
+
+        public ClassH(ClassG cg) {
+            this.cg = cg;
+        }
+
+        public void test(CounterHolder counterHolder){
+            this.incrementCounter(counterHolder);
+            this.cg.test(counterHolder);
+        }
+    }
+
+    public static class ClassG extends ClassE {
+
+        public void test(CounterHolder counterHolder){
+            this.incrementCounter(counterHolder);
+        }
+    }
 }

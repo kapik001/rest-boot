@@ -24,4 +24,17 @@ class ExecutionObjectProducerTest {
         ExecutionObjectProducerTestUtils.ClassA executionObject = (ExecutionObjectProducerTestUtils.ClassA) new ExecutionObjectProducer(cm.iterator().next()).produceExecutionObject();
         assertTrue(List.of("A", "B", "C", "D").containsAll(executionObject.test()));
     }
+
+    @Test
+    public void testNestedObjects() throws ContextCreationException {
+        Set<ContextMap> cm = new ContextMapCreator( Set.of(
+                ExecutionObjectProducerTestUtils.ClassG.class,
+                ExecutionObjectProducerTestUtils.ClassH.class)).
+                createContextMap(
+                        Set.of(
+                                ExecutionObjectProducerTestUtils.ClassF.class)
+                );
+        ExecutionObjectProducerTestUtils.ClassF executionObject = (ExecutionObjectProducerTestUtils.ClassF) new ExecutionObjectProducer(cm.iterator().next()).produceExecutionObject();
+        assertEquals(3, executionObject.test());
+    }
 }
